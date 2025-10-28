@@ -1,18 +1,82 @@
-# React + Vite
+# Interactive To-Do List Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fully interactive To-Do List web application built with Vite, React, and Tailwind CSS. Features drag-and-drop functionality, task categories, completion tracking, and localStorage persistence.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Core Functionality
+- ✅ **Add Tasks**: Create new tasks with input validation (no blank tasks)
+- ✅ **Display Tasks**: Clean, organized vertical list with clear separation
+- ✅ **Delete Tasks**: Remove tasks with a single click
+- ✅ **Drag & Drop Reordering**: Smooth drag-and-drop to reorder tasks within categories
+- ✅ **No Duplicates**: Clean swapping with instant updates
 
-## React Compiler
+### Bonus Features
+- 💾 **localStorage Persistence**: Tasks persist across browser sessions
+- ✓ **Task Completion**: Checkbox with strike-through styling for completed tasks
+- 📁 **Categories**: Organize tasks into "Today", "Tomorrow", and "Later" sections
+- 📊 **Task Counter**: Visual count of tasks in each category
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### UI/UX
+- 🎨 **Modern Dark Theme**: Professional color palette with blue accents
+- ✨ **Smooth Animations**: Hover effects, drag animations, and transitions
+- 📱 **Fully Responsive**: Works seamlessly on mobile, tablet, and desktop
+- ♿ **Accessible**: Semantic HTML and proper ARIA attributes
+- 🎯 **Intuitive Design**: Clear visual hierarchy and user feedback
 
-Note: This will impact Vite dev & build performances.
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Build Tool**: Vite (fast development and optimized builds)
+- **Frontend**: React 18
+- **Language**: JavaScript (ES6+)
+- **Styling**: Tailwind CSS v3
+- **Icons**: Lucide React
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Usage
+
+### Adding Tasks
+1. Select a category (Today, Tomorrow, or Later)
+2. Type your task in the input field
+3. Click "Add" or press Enter
+4. Blank inputs are automatically rejected
+
+### Managing Tasks
+- **Complete**: Click the checkbox to mark as complete (adds strike-through)
+- **Delete**: Click the trash icon to remove a task
+- **Reorder**: Click and drag the grip icon (or anywhere on the task) to reorder within a category
+
+### Data Persistence
+All tasks are automatically saved to localStorage and will persist when you:
+- Refresh the page
+- Close and reopen the browser
+- Navigate away and return
+
+## Project Structure
+
+\`\`\`
+├── src/
+│   ├── App.jsx              # Main application component
+│   ├── main.jsx             # React entry point
+│   ├── index.css            # Global styles
+│   └── components/
+│       ├── TaskList.jsx     # Task list container with drag-and-drop
+│       └── TaskItem.jsx     # Individual task component
+├── index.html               # HTML entry point
+├── vite.config.js           # Vite configuration
+├── tailwind.config.js       # Tailwind CSS configuration
+└── README.md
+\`\`\`
+
+## How Drag & Drop Works
+
+The drag-and-drop functionality is implemented using native HTML5 drag-and-drop API:
+
+1. **Draggable Elements**: Each task has `draggable={true}` attribute
+2. **Drag Events**: 
+   - `onDragStart` - Tracks which task is being dragged
+   - `onDragOver` - Highlights the drop target
+   - `onDragEnd` - Swaps tasks and updates state
+3. **Visual Feedback**: 
+   - Dragging task becomes semi-transparent
+   - Drop target gets blue border and ring effect
+   - Smooth animations throughout
