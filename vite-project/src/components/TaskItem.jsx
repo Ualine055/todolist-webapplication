@@ -14,7 +14,14 @@ export function TaskItem({
   return (
     <div
       draggable
-      onDragStart={() => onDragStart(index)}
+      onDragStart={(e) => {
+        onDragStart(index)
+        try {
+          e.dataTransfer.setData("text/task-id", task.id)
+          e.dataTransfer.setData("text/source", "list")
+          e.dataTransfer.effectAllowed = "move"
+        } catch {}
+      }}
       onDragOver={(e) => onDragOver(e, index)}
       onDragEnd={onDragEnd}
       onDragLeave={onDragLeave}
