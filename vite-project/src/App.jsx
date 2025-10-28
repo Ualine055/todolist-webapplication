@@ -7,6 +7,7 @@ function App() {
   const [tasks, setTasks] = useState([])
   const [newTaskText, setNewTaskText] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("today")
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
 
   // Load tasks from localStorage on mount
   useEffect(() => {
@@ -33,6 +34,9 @@ function App() {
       text: newTaskText.trim(),
       completed: false,
       category: selectedCategory,
+      onCanvas: false,
+      x: 0,
+      y: 0,
     }
 
     setTasks([...tasks, newTask])
@@ -66,9 +70,51 @@ function App() {
     { value: "later", label: "Later" },
   ]
 
+  const handleFreeDragStart = (e, task) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const offsetX = e.clientX - rect.left
+    const offsetY = e.clientY - rect.top
+    setDragOffset({ x: offsetX, y: offsetY })
+    e.dataTransfer.setData("text/task-id", task.id)
+    e.dataTransfer.setData("text/source", "free")
+    e.dataTransfer.effectAllowed = "move"
+  }
+
+  const handlePageDragOver = (e) => {
+    e.preventDefault()
+  }
+
+  const handlePageDrop = (e) => {
+    e.preventDefault()
+    const id = e.dataTransfer.getData("text/task-id")
+    const source = e.dataTransfer.getData("text/source") || "list"
+    if (!id) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    const offsetX = source === "free" ? dragOffset.x : 0
+    const offsetY = source === "free" ? dragOffset.y : 0
+    const dropX = e.clientX - rect.left - offsetX
+    const dropY = e.clientY - rect.top - offsetY
+    setTasks((prev) =>
+      prev.map((t) =>
+        t.id === id
+          ? {
+              ...t,
+              onCanvas: true,
+              x: Math.max(0, dropX),
+              y: Math.max(0, dropY),
+            }
+          : t,
+      ),
+    )
+  }
+
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-950 via-gray-900 to-gray-950">
-      <div className="mx-auto max-w-4xl px-4 py-8 md:py-16">
+      <div
+        className="relative mx-auto max-w-4xl px-4 py-8 md:py-16"
+        onDragOver={handlePageDragOver}
+        onDrop={handlePageDrop}
+      >
         {/* Header */}
         <div className="mb-8 md:mb-12 text-center">
           <h1 className="mb-3 text-5xl font-bold tracking-tight text-white md:text-6xl bg-linear-to-r from-blue-400 to-purple-500 bg-clip-text">
@@ -119,7 +165,7 @@ function App() {
         {/* Task Lists by Category */}
         <div className="space-y-8">
           {categories.map((cat) => {
-            const categoryTasks = tasks.filter((task) => task.category === cat.value)
+            const categoryTasks = tasks.filter((task) => task.category === cat.value && !task.onCanvas)
             return (
               <div key={cat.value} className="space-y-4">
                 <div className="flex items-center gap-3">
@@ -139,6 +185,29 @@ function App() {
             )
           })}
         </div>
+
+        {/* Free-positioned tasks rendered over the page content */}
+        {tasks
+          .filter((t) => t.onCanvas)
+          .map((t) => (
+            <div
+              key={t.id}
+              className="absolute z-20 cursor-move select-none rounded-xl border border-gray-800 bg-gray-900/90 px-4 py-2 text-white shadow-lg"
+              style={{ left: t.x || 0, top: t.y || 0 }}
+              draggable
+              onDragStart={(e) => handleFreeDragStart(e, t)}
+            >
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={t.completed}
+                  onChange={() => toggleComplete(t.id)}
+                  className="h-4 w-4 cursor-pointer rounded border-gray-700 bg-gray-800 text-blue-600 focus:ring-2 focus:ring-blue-500/30"
+                />
+                <span className={t.completed ? "text-gray-400 line-through" : "text-white"}>{t.text}</span>
+              </div>
+            </div>
+          ))}
 
         {/* Empty State */}
         {tasks.length === 0 && (
