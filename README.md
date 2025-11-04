@@ -32,6 +32,16 @@ A fully interactive To-Do List web application built with Vite, React, and Tailw
 - **Styling**: Tailwind CSS v3
 - **Icons**: Lucide React
 
+## screenshots
+![homepage](/vite-project/src/assets/Capture.PNG)
+
+## GitHub link
+![GitHub-repository-link](https://github.com/Ualine055/todolist-webapplication.git)
+
+## live Demo
+![Demo deployed link](https://todolist-webapplication-4o13vgchr-ualine055-5515s-projects.vercel.app/)
+
+
 ## Installation
 
 1. Download the project files
@@ -74,6 +84,8 @@ All tasks are automatically saved to localStorage and will persist when you:
 │   └── components/
 │       ├── TaskList.jsx     # Task list container with drag-and-drop
 │       └── TaskItem.jsx     # Individual task component
+│   └── types/
+│       ├── TaskList.jsx
 ├── index.html               # HTML entry point
 ├── vite.config.js           # Vite configuration
 ├── tailwind.config.js       # Tailwind CSS configuration
@@ -93,42 +105,3 @@ The drag-and-drop functionality is implemented using native HTML5 drag-and-drop 
    - Dragging task becomes semi-transparent
    - Drop target gets blue border and ring effect
    - Smooth animations throughout
-
-## Code Quality
-
-- **Organized Structure**: Modular components with clear separation of concerns
-- **JavaScript ES6+**: Modern JavaScript with arrow functions, destructuring, and hooks
-- **Reusable Components**: DRY principles with composable UI elements
-- **Clean Code**: Readable, well-commented, and maintainable
-- **Best Practices**: React hooks, proper state management, and performance optimization
-
-## Evaluation Criteria Met
-
-| Criteria | Implementation | Score |
-|----------|---------------|-------|
-| **Functionality** | All CRUD operations + drag-and-drop working perfectly | 30/30 |
-| **UI/UX Design** | Modern dark theme, responsive, smooth animations | 25/25 |
-| **Code Quality** | Clean JavaScript, modular components, organized structure | 20/20 |
-| **Interactivity** | Smooth drag animations, instant updates, no bugs | 15/15 |
-| **Presentation** | Professional README with clear instructions | 10/10 |
-| **Bonus Features** | localStorage + completion + categories | +15 |
-| **Total** | | **115/100** |
-
-## Available Scripts
-
-- `npm run dev` - Start development server (http://localhost:5173)
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build locally
-
-## Browser Support
-
-- Chrome (recommended)
-- Firefox
-- Safari
-- Edge
-
-All modern browsers with ES6+ support
-
-## License
-
-MIT License - feel free to use this project for learning or personal use.
