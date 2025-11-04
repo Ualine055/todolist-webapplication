@@ -39,7 +39,7 @@ A fully interactive To-Do List web application built with Vite, React, and Tailw
 ![GitHub-repository-link](https://github.com/Ualine055/todolist-webapplication.git)
 
 ## live Demo
-![Demo deployed link](https://todolist-webapplication-4o13vgchr-ualine055-5515s-projects.vercel.app/)
+![Demo deployed link](todolist-webapplication-9yvi7lc1p-ualine055-5515s-projects.vercel.app)
 
 
 ## Installation
