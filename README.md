@@ -42,18 +42,6 @@ A fully interactive To-Do List web application built with Vite, React, and Tailw
 ![Demo deployed link](todolist-webapplication-9yvi7lc1p-ualine055-5515s-projects.vercel.app)
 
 
-## Installation
-
-1. Download the project files
-2. Install dependencies:
-   \`\`\`bash
-   npm install
-   \`\`\`
-3. Run the development server:
-   \`\`\`bash
-   npm run dev
-   \`\`\`
-4. Open [http://localhost:5173](http://localhost:5173) in your browser
 
 ## Usage
 
@@ -104,4 +92,4 @@ The drag-and-drop functionality is implemented using native HTML5 drag-and-drop 
 3. **Visual Feedback**: 
    - Dragging task becomes semi-transparent
    - Drop target gets blue border and ring effect
-   - Smooth animations throughout
+   
