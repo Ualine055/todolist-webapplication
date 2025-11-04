@@ -12,19 +12,31 @@ export function TaskList({ tasks, onDelete, onToggleComplete, onReorder, allTask
 
   const handleDragOver = (e, index) => {
     e.preventDefault()
-    setDragOverIndex(index)
+    const rect = e.currentTarget.getBoundingClientRect()
+    const isAfter = e.clientY > rect.top + rect.height / 2
+    const insertionIndex = index + (isAfter ? 1 : 0)
+    setDragOverIndex(insertionIndex)
   }
 
   const handleDragEnd = () => {
-    if (draggedIndex !== null && dragOverIndex !== null && draggedIndex !== dragOverIndex) {
-      // Get the actual indices in the full tasks array
+    if (draggedIndex !== null && dragOverIndex !== null) {
+      const clampedTarget = Math.max(0, Math.min(dragOverIndex, tasks.length))
       const draggedTask = tasks[draggedIndex]
-      const dragOverTask = tasks[dragOverIndex]
-
       const fullDraggedIndex = allTasks.findIndex((t) => t.id === draggedTask.id)
-      const fullDragOverIndex = allTasks.findIndex((t) => t.id === dragOverTask.id)
 
-      onReorder(fullDraggedIndex, fullDragOverIndex)
+      // Build mapping from visible list indices to full task indices
+      const fullIndices = tasks.map((t) => allTasks.findIndex((at) => at.id === t.id))
+
+      // Translate insertion position to full array index (before the item at clampedTarget, or after last)
+      const targetFullIndex =
+        clampedTarget < fullIndices.length ? fullIndices[clampedTarget] : Math.max(...fullIndices) + 1
+
+      // Adjust end index to account for removal if dragging from before target
+      const adjustedEndIndex = targetFullIndex > fullDraggedIndex ? targetFullIndex - 1 : targetFullIndex
+
+      if (adjustedEndIndex !== fullDraggedIndex) {
+        onReorder(fullDraggedIndex, adjustedEndIndex)
+      }
     }
     setDraggedIndex(null)
     setDragOverIndex(null)
@@ -56,7 +68,7 @@ export function TaskList({ tasks, onDelete, onToggleComplete, onReorder, allTask
           onDragEnd={handleDragEnd}
           onDragLeave={handleDragLeave}
           isDragging={draggedIndex === index}
-          isDragOver={dragOverIndex === index}
+          isDragOver={dragOverIndex === index || dragOverIndex === index + 1}
         />
       ))}
     </div>
